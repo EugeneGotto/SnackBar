@@ -1,0 +1,7 @@
+src/packages/
+*.user
+src/SnackBar.DAL/bin/
+src/SnackBar.DAL/obj/
+src/SnackBar/bin/
+src/SnackBar/obj/
+src/.vs/

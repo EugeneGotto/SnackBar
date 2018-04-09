@@ -1,0 +1,29 @@
+﻿@using SnackBar.Resx
+@{
+    ViewBag.Title = Resource.Create;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.CreateNewProduct</h2>
+<div class="container">
+    @using (Html.BeginForm("Create", "Home", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label for="name">@Resource.ProductName:</label>
+            <input type="text" class="form-control" id="name" name="Name">
+        </div>
+        <div class="form-group">
+            <label for="cnt">@Resource.Quantity:</label>
+            <input type="text" class="form-control" id="cnt" name="Count">
+        </div>
+        <div class="form-group">
+            <label for="price">@Resource.PricePerOne:</label>
+            <input type="text" class="form-control" id="price" name="Price">
+        </div>
+        <div class="form-group">
+            <label for="brc">@Resource.Barcode:</label>
+            <input type="text" class="form-control" id="brc" name="Barcode">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Create" />
+    }
+</div>

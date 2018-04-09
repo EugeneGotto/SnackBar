@@ -1,0 +1,42 @@
+﻿@using SnackBar.Resx
+@model SnackBar.ViewModels.CheckViewModel
+@{
+    ViewBag.Title = "Check";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h2>@Resource.CheckHead</h2>
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">@Resource.ProductName</th>
+                    <th class="text-center">@Resource.PricePerOne</th>
+                    <th class="text-center">@Resource.Quantity</th>
+                    <th class="text-center">@Resource.TotalPrice</th>
+                    <th class="text-center">@Resource.Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CheckLines)
+                {
+                    <tr>
+                        <td class="text-center">@item.ProductName</td>
+                        <td class="text-center">@item.PriceOnePcs BYN</td>
+                        <td class="text-center">@item.PurchasedCount</td>
+                        <td class="text-center">@item.TotalPrice</td>
+                        <td class="text-center">@item.Annotation</td>
+                    </tr>
+                }
+                <tr>
+                    <td class="text-right">@Resource.Total</td>
+                    <td></td>
+                    <td class="text-center">@Model.TotalPurchasedCount</td>
+                    <td class="text-center">@Model.TotalMoney BYN</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>@Resource.YourBalance @Model.Balance BYN</h3>
+    </div>
+</div>

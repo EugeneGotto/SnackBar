@@ -1,0 +1,58 @@
+﻿@using SnackBar.Resx
+@model IEnumerable<SnackBar.DAL.Models.Product>
+
+@{
+    ViewBag.Title = Resource.EditProducts;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int totalCount = 0;
+    decimal totalSum = 0M;
+    string lang = string.IsNullOrEmpty(Request.Cookies["lang"]?.Value) ? "en" : Request.Cookies["lang"].Value;
+}
+
+<h2>@Resource.EditProducts</h2>
+
+<p>
+    @Html.ActionLink(Resource.CreateNewProduct.ToString(), "Create") <br />
+    @Html.ActionLink(Resource.DeletedProducts.ToString(), "DeletedProducts")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Resource.ProductName</th>
+            <th>@Resource.Quantity</th>
+            <th>@Resource.PricePerOne</th>
+            <th>@Resource.Barcode</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            totalCount += item.Count;
+            totalSum += item.Price * item.Count;
+            <tr>
+                <td style="vertical-align:middle">
+                    <p>@item.Name</p>
+                    @if (item.TagStringEn.Length > 0)
+                    {
+                        <span class="badge" style="background-color:#7FC224">@(lang.Equals("en") ? item.TagStringEn : item.TagStringRu)</span>
+                    }
+                </td>
+                <td style="vertical-align:middle"> @item.Count </td>
+                <td style="vertical-align:middle"> @item.Price </td>
+                <td style="vertical-align:middle"> @item.Barcode </td>
+                <td style="vertical-align:middle">
+                    <div class="btn-group">
+                        <a href="@Url.Action("Edit", "Product", new { Area = "Admin", Id = item.Id })" class="btn btn-primary">@Resource.Edit</a>
+                        <a href="@Url.Action("Delete", "Product", new { Area = "Admin", Id = item.Id })" class="btn btn-warning">@Resource.Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td><b>@Resource.Total</b></td>
+            <td><b>@totalCount</b></td>
+            <td><b>@totalSum BYN</b></td>
+        </tr>
+    </tbody>
+</table>

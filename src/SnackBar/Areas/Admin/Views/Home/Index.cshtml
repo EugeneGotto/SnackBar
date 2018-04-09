@@ -1,0 +1,98 @@
+﻿@using SnackBar.Resx
+@model IEnumerable<SnackBar.ViewModels.UserViewModel>
+@{
+    ViewBag.Title = Resource.AdminPage;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.AdminPage</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <h3>@Resource.ProductsInBar</h3>
+        <a class="btn btn-primary" href="@Url.Action("EditProducts", "Product", new { area = "Admin" })">@Resource.EditProducts</a><br /><br />
+        <a class="btn btn-primary" href="@Url.Action("Create", "Product", new { area = "Admin" })">@Resource.CreateNewProduct</a><br /><br />
+        <a class="btn btn-primary" href="@Url.Action("Tags", "Product", new { area = "Admin" })">@Resource.TagList</a><br /><br />
+    </div>
+    <div class="col-md-4">
+        <h3>@Resource.Users</h3>
+        <a class="btn btn-primary" href="@Url.Action("AddPayment", "User", new { area = "Admin" })">@Resource.AddPayment</a><br /><br />
+        <a class="btn btn-primary" href="@Url.Action("GetLastPayments", "User", new { area = "Admin" })">@Resource.LastPayments</a><br /><br />
+        @using (Html.BeginForm("GetUserPayments", "User", FormMethod.Get))
+            {
+            <p>@Resource.EnterUserEmail</p>
+            <input type="text" name="email" /><br />
+            <input type="submit" style="margin-top:5px" class="btn btn-primary" value="@Resource.UsersPayments" />
+        }<br /><br />
+        <a class="btn btn-warning" href="@Url.Action("Register", "Account", new { area = "Admin" })">@Resource.RegisterAdmin</a><br /><br />
+    </div>
+    <div class="col-md-4">
+        <h3>@Resource.Orders</h3>
+        <a class="btn btn-primary" href="@Url.Action("GetTodayOrders", "Order", new { area = "Admin" })">@Resource.TodayOrders</a><br /><br />
+        <a class="btn btn-primary" href="@Url.Action("GetMonthOrders", "Order", new { area = "Admin" })">@Resource.ThisMonthOrders</a><br /><br />
+        <a class="btn btn-primary" href="@Url.Action("GetLastMOrders", "Order", new { area = "Admin" })">@Resource.LastMonthOrders</a><br /><br />
+        <a class="btn btn-primary" href="@Url.Action("GetAllOrders", "Order", new { area = "Admin" })">@Resource.AllOrders</a><br /><br />
+        @using (Html.BeginForm("GetUserOrders", "Order", FormMethod.Get))
+        {
+            if (TempData["ErrorEmailInput"] != null)
+            {
+                <div class="alert alert-warning alert-dismissable fade in">
+                    <strong>Warning!</strong> @TempData["ErrorEmailInput"].ToString()
+                </div>
+            }
+            <p>@Resource.EnterUserPinOrEmail</p>
+            <input type="text" name="input" /><br />
+            <input type="submit" style="margin-top:5px" class="btn btn-primary" value="@Resource.UsersOrders" />
+        }<br /><br />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        <h3>@Resource.Debitors</h3>
+        <p />
+        @{ decimal sum = 0M; }
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Resource.UsersEmail</th>
+                    <th>@Resource.Balance</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    if (user.Balance > -10)
+                    {
+                        <tr class="warning">
+                            <td>@user.Email</td>
+                            <td>@user.Balance BYN</td>
+                            <td><a class="btn btn-primary btn-sm" href="@Url.Action("AddPaymentByEmail","User",new { area = "Admin", email = user.Email })">@Resource.Pay</a></td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="danger">
+                            <td>@user.Email</td>
+                            <td>@user.Balance BYN</td>
+                            <td><a class="btn btn-primary btn-sm" href="@Url.Action("AddPaymentByEmail","User",new { area = "Admin", email = user.Email })">@Resource.Pay</a></td>
+                        </tr>
+                    }
+                    sum += user.Balance;
+                }
+            </tbody>
+        </table>
+        @if (TempData["ErrorEmailSends"] != null)
+        {
+            <div class="alert alert-warning alert-dismissable fade in">
+                <strong>Warning!</strong> @TempData["ErrorEmailSends"].ToString()
+            </div>
+        }
+        else
+        {
+            @Html.ActionLink(Resource.SendEmails.ToString(), "SendAsync", "Home", new { area = "Admin" }, null)<br /><br /><br /><br />
+        }
+        <p>@Resource.TotalDebit</p>
+        <h3>@sum  BYN</h3>
+    </div>
+</div>

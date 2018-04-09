@@ -1,0 +1,40 @@
+﻿@using SnackBar.Resx
+@model SnackBar.ViewModels.CartViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.CartHead</h2>
+<div class="row">
+    <div class="col-md-12">
+        @if (Model == null)
+        {
+            <h3>@Resource.User404</h3><br />
+            @Html.ActionLink(Resource.Relogin.ToString(), "Login", "Account", new { area = "Admin" }, null);
+        }
+        else
+        {
+            <h3>@Resource.Hi, @Model.BuyerName, @Resource.YourBalance @Model.Balance BYN</h3><br />
+            if (Model.Cart == null || Model.Cart.CartCollection.Count() == 0)
+            {
+                <h3>@Resource.CartEmpty</h3>
+            }
+            else
+            {
+                <div class="row" id="cartTable">
+                    @Html.Partial("_cartTable", Model.Cart)
+                </div>
+            }
+        }
+    </div>
+</div>
+<div class="row">
+    @Html.Action("GetOrders", "User", new { area = string.Empty })
+    @*<a class="btn btn-primary" href="@Url.Action("GetOrders", "User", new { area = string.Empty })">@Resource.LastOrders</a>*@
+</div>
+@section Scripts{
+    @Scripts.Render("~/Scripts/jquery-1.10.2.min.js")
+    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")
+}

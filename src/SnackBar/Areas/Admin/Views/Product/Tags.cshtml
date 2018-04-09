@@ -1,0 +1,48 @@
+﻿@using SnackBar.Resx;
+@model ICollection<SnackBar.ViewModels.TagViewModel>
+@{
+    ViewBag.Title = Resource.TagList;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.TagList</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Resource.EnName</th>
+                    <th>@Resource.RuName</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tag in Model)
+                {
+                    <tr>
+                        <td>@tag.Name</td>
+                        <td>@(tag.NameRu.Equals(tag.Name) ? "" : tag.NameRu)</td>
+                        <td class="text-right">
+                            <div class="btn-group">
+                                <a href="@Url.Action("EditTag", "Product", new { Area = "Admin", id = tag.Id })" class="btn btn-primary">@Resource.Edit</a>
+                                <a href="@Url.Action("DeleteTag", "Product", new { Area = "Admin", id = tag.Id })" class="btn btn-danger">@Resource.Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <h3>@Resource.CreateNewTag</h3>
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                <p> @Resource.NewTag @Html.TextBox("TagName")</p>
+                <input type="submit" class="btn btn-primary" value="@Resource.Create" />
+            </div>
+        }
+    </div>
+</div>

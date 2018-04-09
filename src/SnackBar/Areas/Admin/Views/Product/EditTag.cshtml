@@ -1,0 +1,28 @@
+﻿@using SnackBar.Resx
+@model SnackBar.DAL.Models.Tag
+@{
+    ViewBag.Title = Resource.EditTag;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.EditTag</h2>
+
+<div class="container">
+    <div class="col-md-12">
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(model => model.Id)
+            <div class="form-group">
+                @Html.LabelFor(model => model.TagName, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.TagName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TagName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TagNameRu, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.EditorFor(model => model.TagNameRu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TagNameRu, "", new { @class = "text-danger" })
+            </div>
+            <input type="submit" class="btn btn-primary" value="@Resource.Save" />
+        }
+    </div>
+</div>

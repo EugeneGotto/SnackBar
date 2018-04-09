@@ -1,0 +1,34 @@
+﻿@using SnackBar.Resx
+@model IEnumerable<SnackBar.DAL.Models.Product>
+@{
+    ViewBag.Title = Resource.DeletedProducts;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.DeletedProducts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Resource.ProductName</th>
+            <th>@Resource.Quantity</th>
+            <th>@Resource.PricePerOne</th>
+            <th>@Resource.Barcode</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td> @item.Name </td>
+                <td> @item.Count </td>
+                <td> @item.Price </td>
+                <td> @item.Barcode </td>
+                <td>
+                    <a href="@Url.Action("DeletedProducts", "Product", new { Area = "Admin", Id = item.Id })" class="btn btn-primary">@Resource.ReturnToBar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

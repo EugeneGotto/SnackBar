@@ -1,0 +1,30 @@
+﻿@using SnackBar.Resx
+@model IEnumerable<SnackBar.ViewModels.PaymentListViewModel>
+@{
+    ViewBag.Title = Resource.LastPayments;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.LastPayments</h2>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>@Resource.UsersEmail</td>
+                <td>@Resource.Money</td>
+                <td>@Resource.Date</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Email</td>
+                    <td>@order.Money  BYN</td>
+                    <td>@order.Date.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

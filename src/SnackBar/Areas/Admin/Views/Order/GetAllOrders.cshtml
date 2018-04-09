@@ -1,0 +1,36 @@
+﻿@using SnackBar.Resx
+@model IEnumerable<SnackBar.ViewModels.OrderListViewModel>
+@{
+    ViewBag.Title = Resource.AllOrders;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.AllOrders</h2>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>@Resource.ProductName</td>
+                <td>@Resource.UsersEmail</td>
+                <td>@Resource.PricePerOne</td>
+                <td>@Resource.Quantity</td>
+                <td>@Resource.Date</td>
+                <td>@Resource.TotalPrice</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.ProductName</td>
+                    <td>@order.UserEmail</td>
+                    <td>@order.Price  BYN</td>
+                    <td>@order.Count</td>
+                    <td>@order.Date.ToShortDateString()</td>
+                    <td>@order.TotalPrice</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

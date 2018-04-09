@@ -1,0 +1,38 @@
+﻿@using SnackBar.Resx
+@model SnackBar.ViewModels.UserIndexPageViewModel
+<div id="userBalance">
+    @if (Model == null)
+    {
+        <h3>@Resource.UserByPin404</h3>
+    }
+    else
+    {
+        <h3>@Resource.Hi, @Model.Name, @Resource.YourBalance @Model.Balance BYN</h3>
+        if (Model.Orders.Any())
+        {
+            <div class="col-md-offset-2 col-md-8">
+                <table class="table table-bordered" align="left">
+                    <thead>
+                        <tr>
+                            <th>@Resource.ProductName</th>
+                            <th>@Resource.Quantity</th>
+                            <th>@Resource.TotalPrice</th>
+                            <th>@Resource.Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                    {
+                            <tr>
+                                <td>@order.ProductName</td>
+                                <td>@order.Count</td>
+                                <td>@order.Price  BYN</td>
+                                <td>@order.Date</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,25 @@
+﻿@using SnackBar.Resx
+@model SnackBar.ViewModels.ProductListViewModel
+@{
+    ViewBag.Title = Resource.AddOrder.ToString();
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Resource.AddOrder</h2>
+
+<div class="container">
+    @using (Html.BeginForm("AddOrder", "Order", FormMethod.Post))
+    {
+        <p>@Resource.YouChoose "@Model.Products[0].Name" @Resource.For @Model.Products[0].Price BYN</p>
+        <p>@Resource.YourPin</p>
+        <input type="text" name="Pin" value="@Model.Pin" />
+        <input type="hidden" name="ProductId" value="@Model.Products[0].Id" />
+        <input type="submit" class="btn btn-primary" value="@Resource.Buy" />
+    }
+    @using (Html.BeginForm("CreatePin", "Home", FormMethod.Post))
+    {
+        <p>@Resource.NoPinEnterEmail</p>
+        <input type="text" name="Email" />
+        <input type="submit" class="btn btn-success" value="@Resource.CreateNewPin" />
+    }
+</div>

@@ -1,0 +1,43 @@
+﻿@using SnackBar.Resx
+@model SnackBar.DAL.Models.Cart
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-left">@Resource.ProductName</th>
+                    <th class="text-left">@Resource.PricePerOne</th>
+                    <th class="text-center">@Resource.Quantity</th>
+                    <th class="text-center">@Resource.TotalPrice</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CartCollection)
+                {
+                    <tr>
+                        <td class="text-left">@item.Product.Name <span class="badge" style="background-color:#7FC224">@item.Product.Count</span></td>
+                        <td class="text-left">@item.Product.Price BYN</td>
+                        <td class="text-center">
+                            @Ajax.ActionLink("-", "DecreaseCount", "Cart", new { area = string.Empty, Id = item.Id }, new AjaxOptions { UpdateTargetId = "cartTable", HttpMethod = "Get", InsertionMode = InsertionMode.Replace }, new { @class = "btn btn-danger btn-xs" })
+                            @item.Count
+                            @Ajax.ActionLink("+", "IncreaseCount", "Cart", new { area = string.Empty, Id = item.Id }, new AjaxOptions { UpdateTargetId = "cartTable", HttpMethod = "Get", InsertionMode = InsertionMode.Replace }, new { @class = "btn btn-success btn-xs" })
+                        </td>
+                        <td class="text-center">@item.TotalPrice BYN</td>
+                        <td class="text-right">
+                            @Ajax.ActionLink(Resource.Remove.ToString(), "RemoveItem", "Cart", new { area = string.Empty, Id = item.Id }, new AjaxOptions { UpdateTargetId = "cartTable", HttpMethod = "Get", InsertionMode = InsertionMode.Replace }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td class="text-right">@Resource.Total</td>
+                    <td></td>
+                    <td class="text-center">@Model.TotalItems @Resource.Pcs</td>
+                    <td class="text-center">@Model.TotalCartPrice BYN</td>
+                </tr>
+            </tbody>
+        </table>
+        <br /><br />
+        <a href="@Url.Action("MakeOrder", "Cart", new { Area = String.Empty })" class="btn btn-success">@Resource.MakeOrder</a>
+    </div>
+</div>

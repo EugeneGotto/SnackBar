@@ -1,0 +1,84 @@
+﻿@using SnackBar.Resx
+@{
+    var isAuthenticated = Request.IsAuthenticated;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - @System.Configuration.ConfigurationManager.AppSettings["CompanyName"] Snack Bar</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/jqcloud.js")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            @if (!isAuthenticated)
+            {
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="@Url.Action("Index", "Home", new { area = string.Empty })" class="navbar-brand" style="padding:5px">
+                        <img src="~/Content/logo_1200.png" title="SnackBar" alt="" style="height: 40px; display: inline-block; margin-top: auto; padding:0px" />
+                    </a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    @Html.Partial("_LoginPartial")
+                </div>
+            }
+            else
+            {
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink(Resource.AdminArea.ToString(), "Index", "Home", new { area = "Admin" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink(Resource.BarList.ToString(), "Index", "Home", new { area = string.Empty }, null)</li>
+                        <li>@Html.ActionLink(Resource.EditProducts.ToString(), "EditProducts", "Product", new { area = "Admin" }, null)</li>
+                        <li>@Html.ActionLink(Resource.AddNewPayment.ToString(), "AddPayment", "User", new { area = "Admin" }, null)</li>
+                    </ul>
+                    @Html.Partial("_LoginPartial")
+                </div>
+            }
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="row">
+                <div class="col-md-10">
+                    <p style="text-align:start">&copy; @DateTime.Now.Year - @System.Configuration.ConfigurationManager.AppSettings["CompanyName"]</p>
+                </div>
+                <div class="col-md-2">
+                    <div class="dropup">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                            @Resource.ChooseLang
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("ChangeCulture", "Home", new { area = string.Empty, lang = "ru" })">Русский</a></li>
+                            <li><a href="@Url.Action("ChangeCulture", "Home", new { area = string.Empty, lang = "en" })">English</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

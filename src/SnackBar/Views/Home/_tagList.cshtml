@@ -1,0 +1,32 @@
+﻿@using SnackBar.Resx
+@model ICollection<SnackBar.ViewModels.TagViewModel>
+@{
+    string lang = string.IsNullOrEmpty(Request.Cookies["lang"]?.Value) ? "en" : Request.Cookies["lang"].Value;
+}
+<h3>@Resource.AvailableTags</h3>
+
+<div class="container">
+    <div class="col-md-11">
+        <ul class="nav nav-pills">
+            @foreach (var tag in Model)
+            {
+                if (ViewBag.SelectedTag != null)
+                {
+                    <li @(tag.Id == (long)ViewBag.SelectedTag ? "class=active" : "")>
+                        <a href="@Url.Action("Category", "Home", new { Area = string.Empty, Id = tag.Id })">
+                            @(lang.Equals("en") ? tag.Name : tag.NameRu)<span class="badge">@tag.Count</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="@Url.Action("Category", "Home", new { Area = string.Empty, Id = tag.Id })">
+                            @(lang.Equals("en") ? tag.Name : tag.NameRu)<span class="badge">@tag.Count</span>
+                        </a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
